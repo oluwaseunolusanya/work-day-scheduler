@@ -26,6 +26,10 @@ header {
   white-space: pre-wrap;
 }
 
+.container{
+  margin-top: 50px;
+}
+
 .time-block {
   text-align: center;
   border-radius: 15px;
@@ -41,6 +45,9 @@ header {
   background-color: #ffffff;
   color: #000000;
   border-top: 1px dashed #000000;
+  width: 80px;
+  justify-content: right;
+  border-left: none;
 }
 
 .past {
@@ -64,6 +71,7 @@ header {
   border-bottom-right-radius: 15px;
   background-color: #06aed5;
   color: white;
+  width:80px;
 }
 
 .saveBtn i:hover {
