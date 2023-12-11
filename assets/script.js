@@ -4,16 +4,29 @@ let currentDay = dayjs().format("dddd, MMMM Do");
 $("#currentDay").text(currentDay);
 
 //Add colorcodes to timeblock
-let currentHour = dayjs().format("h A")
-let timeblockEl = $(".container").children().children()
+let currentHour = dayjs().format("h A")  
 
+//Loop through all the elements in each timeblock
+let timeblockEl = $(".container").children().children()
 for (let index = 0; index < timeblockEl.length; index++) {
     let timeblockHour;
     let timeblockContent;
+    let saveButtonEl;
+
+    let addCalendarEvent = function(event){
+        event.preventDefault();
+
+        // console.log(timeblockContent.val())
+
+        localStorage.setItem(timeblockHour, timeblockContent.value);
+    }
+
+
     if (index % 3 === 0){
-        timeblockHour = timeblockEl[index].textContent;
-        timeblockContent = timeblockEl[index + 1]
-        console.log(timeblockHour)
+        timeblockHour = timeblockEl[index].textContent;  //Content of the 'span' element
+        timeblockContent = timeblockEl[index + 1];        //Select the 'textarea' element
+        saveButtonEl = timeblockEl[index + 2];
+        console.log(saveButtonEl);
     }
     else{
         continue;
@@ -39,4 +52,7 @@ for (let index = 0; index < timeblockEl.length; index++) {
     else{
         timeblockContent.setAttribute("class", "form-control past")
     }
+
+    //Save calendar event to local storage
+    saveButtonEl.addEventListener("click", addCalendarEvent);
 }
