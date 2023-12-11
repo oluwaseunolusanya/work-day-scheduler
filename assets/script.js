@@ -4,7 +4,7 @@ let currentDay = dayjs().format("dddd, MMMM Do");
 $("#currentDay").text(currentDay);
 
 //Add colorcodes to timeblock
-let currentHour = dayjs().format("h A")  
+let currentHour = dayjs().format("h A");
 
 //Loop through all the elements in each timeblock
 let timeblockEl = $(".container").children().children()
@@ -13,12 +13,14 @@ for (let index = 0; index < timeblockEl.length; index++) {
     let timeblockContent;
     let saveButtonEl;
 
-    let addCalendarEvent = function(event){
-        event.preventDefault();
-
-        // console.log(timeblockContent.val())
-
+    let addCalendarEvent = function(e){
+        e.preventDefault();
         localStorage.setItem(timeblockHour, timeblockContent.value);
+    }
+
+    let persistSchedule = function(e){
+        e.preventDefault();
+        timeblockContent.value = localStorage.getItem(timeblockHour);
     }
 
 
@@ -26,7 +28,6 @@ for (let index = 0; index < timeblockEl.length; index++) {
         timeblockHour = timeblockEl[index].textContent;  //Content of the 'span' element
         timeblockContent = timeblockEl[index + 1];        //Select the 'textarea' element
         saveButtonEl = timeblockEl[index + 2];
-        console.log(saveButtonEl);
     }
     else{
         continue;
@@ -37,22 +38,26 @@ for (let index = 0; index < timeblockEl.length; index++) {
 
     if (currentHour.split(" ")[1] === timeblockHour.split(" ")[1]){
         if(timeblockHourDigit < currentHourDigit){
-            timeblockContent.setAttribute("class", "form-control past")
+            timeblockContent.setAttribute("class", "form-control past");
         }
         else if(timeblockHourDigit > currentHourDigit){
-            timeblockContent.setAttribute("class", "form-control future")
+            timeblockContent.setAttribute("class", "form-control future");
         }
         else if(timeblockHourDigit === currentHourDigit){
-            timeblockContent.setAttribute("class", "form-control present")
+            timeblockContent.setAttribute("class", "form-control present");
         }
     }
     else if (currentHour.split(" ")[1] === "AM" && timeblockHour.split(" ")[1] === "PM"){
-        timeblockContent.setAttribute("class", "form-control future")
+        timeblockContent.setAttribute("class", "form-control future");
     }
     else{
-        timeblockContent.setAttribute("class", "form-control past")
+        timeblockContent.setAttribute("class", "form-control past");
     }
 
     //Save calendar event to local storage
     saveButtonEl.addEventListener("click", addCalendarEvent);
+
+    //Persist data of each timeblock upon reloading page
+    window.addEventListener("load", persistSchedule);
+
 }
