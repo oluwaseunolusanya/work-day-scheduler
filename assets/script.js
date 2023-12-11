@@ -13,12 +13,17 @@ for (let index = 0; index < timeblockEl.length; index++) {
     let timeblockContent;
     let saveButtonEl;
 
-    let addCalendarEvent = function(event){
-        event.preventDefault();
+    let addCalendarEvent = function(e){
+        e.preventDefault();
 
         // console.log(timeblockContent.val())
 
         localStorage.setItem(timeblockHour, timeblockContent.value);
+    }
+
+    let persistSchedule = function(e){
+        e.preventDefault();
+        timeblockContent.value = localStorage.getItem(timeblockHour);
     }
 
 
@@ -55,4 +60,8 @@ for (let index = 0; index < timeblockEl.length; index++) {
 
     //Save calendar event to local storage
     saveButtonEl.addEventListener("click", addCalendarEvent);
+
+    //Persist data of each timeblock upon reloading page
+    window.addEventListener("load", persistSchedule)
+
 }
